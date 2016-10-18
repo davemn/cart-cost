@@ -70,3 +70,25 @@ body.footer-rows-1 {
   background-color: #ddd;
   border-left: 1px solid red;
 }
+
+/* <li class="list-group-item">       */
+/*   $<span class="dollars">13</span> */
+/*   .                                */
+/*   <span class="cents">50</span>    */
+
+.dollars {
+  width: 50%;
+  display: inline-block;
+  line-height: 42px;
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.cents {
+  width: 50%;
+  display: inline-block;
+  line-height: 42px;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+}
