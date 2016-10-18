@@ -8,42 +8,50 @@ body {
   background-color: transparent;
   font-family: 'Noto Sans', sans-serif;
   min-height: 100vh;
-  padding-bottom: 84px;
+}
+body.footer-rows-3 {
+  padding-bottom: 87px;
+}
+body.footer-rows-2 {
+  padding-bottom: 53px;
+}
+body.footer-rows-1 {
+  padding-bottom: 34px;
 }
 
-.fixed-bottom {
+.footer-row {
   position: fixed;
-  bottom: 53px;
   width: 100%;
-  text-align: center;
-  border-top: 1px solid #ddd;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.fixed-bottom > label {
-  margin: 0;
-  color: #757575;
-  font-weight: normal;
-}
-
-footer {
-  position: fixed;
   bottom: 0;
-  width: 100%;
   text-align: center;
   border-top: 1px solid #ddd;
   margin: 0 auto;
+}
+
+.footer-row p {
+  margin: 0;
+  color: #757575;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.row-offset-2 {
+  bottom: 53px;
+}
+
+.row-1x {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.row-2x {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
-footer > label {
-  margin: 0;
-  color: #757575;
+.row-2x p {
   font-size: 22px;
-  font-weight: normal;
 }
+
+/* ------------------------------- */
 
 .list-group-item {
   padding: 0;
