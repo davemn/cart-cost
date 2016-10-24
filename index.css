@@ -58,6 +58,26 @@ body.footer-rows-1 {
   min-height: 42px;
 }
 
+.btn-pad {
+  display: flex;
+}
+.btn-col {
+  flex: 1;
+  margin: 0 2px;
+}
+.btn-col > .btn {
+  margin-top: 4px;
+}
+.btn-row-2x {
+  height: 72px;
+}
+
+.pad-display {
+  text-align: right;
+  background-color: #ddd;
+  font-size: 28px;
+}
+
 .after-tax {
   float: right;
   display: inline-block;
