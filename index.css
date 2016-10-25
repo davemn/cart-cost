@@ -19,13 +19,22 @@ body.footer-rows-1 {
   padding-bottom: 34px;
 }
 
-.footer-row {
+footer {
   position: fixed;
   width: 100%;
   bottom: 0;
-  text-align: center;
   border-top: 1px solid #ddd;
-  margin: 0 auto;
+  height: 25vh;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-row {
+  flex: 1;
+}
+.row-2x {
+  flex: 2;
 }
 
 .footer-row p {
@@ -33,22 +42,6 @@ body.footer-rows-1 {
   color: #757575;
   font-size: 16px;
   font-weight: normal;
-}
-
-.row-offset-2 {
-  bottom: 53px;
-}
-
-.row-1x {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.row-2x {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-.row-2x p {
-  font-size: 22px;
 }
 
 /* ------------------------------- */
@@ -73,8 +66,8 @@ body.footer-rows-1 {
 }
 
 .pad-display {
+  margin: 0;
   text-align: right;
-  background-color: #ddd;
   font-size: 28px;
 }
 
