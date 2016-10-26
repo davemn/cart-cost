@@ -9,35 +9,28 @@
 </head>
 <body class="footer-rows-3"><!-- ng-app="CartCost" -->
   <section><!-- ng-controller="InputCtl" -->
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- <ul ng-repeat="lineItem in lineItems track by lineItem.id"> -->
-          <ul class="list-group">
-            <li class="list-group-item">
-              $12.99
-              <span class="after-tax">$13.81</span>
-            </li>
-            <li class="list-group-item">
-              <span class="dollars">$13</span>
-              <span class="cents">50</span>
-            </li>
-            <li class="list-group-item">
-              <span class="badge">$2.13</span>
-              Cras justo odio
-            </li>
-            <li class="list-group-item">
-              <span class="badge">$0.99</span>
-              Cras justo odio
-            </li>
-          </ul>
-        </div>
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="dollars">10</span>
+        <span class="cents">50</span>
+      </div>
+      <div class="ledger-row">
+        <span class="dollars">0</span>
+        <span class="cents">99</span>
+      </div>
+      <div class="ledger-row">
+        <span class="dollars">13</span>
+        <span class="cents">02</span>
+      </div>
+      <div class="ledger-row">
+        <span class="dollars">12</span>
+        <span class="cents">01</span>
       </div>
     </div>
   </section>
   <footer>
     <div class="footer-row row-1x">
-      <p class="pad-display">$12.15</p>
+      <div class="btn-pad-display">$12.15</div>
     </div>
     <div class="footer-row row-2x">
       <div class="btn-pad">
