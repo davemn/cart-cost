@@ -4,4 +4,4 @@ Need a shopping calculator, but just want something light-weight, free (and open
 
 ## Why?
 
-I created this for my own shopping needs, and as a pet project in Angular. it's also bite-sized, so should be a good place to start if you're looking for example Angular code that's not the well-worn TODO list app.
+I created this for my own shopping needs, and as a pet project in Angular. It's also bite-sized, so should be a good place to start if you're looking for example Angular code that's not the well-worn TODO list app.
