@@ -28,7 +28,6 @@ header, footer {
 }
 
 header {
-  border-bottom: 2px solid #ddd;
   background-color: #fff;
   font-size: 1.416rem;
 }
@@ -37,6 +36,7 @@ header {
   flex: 1;
   overflow-y: scroll;
   font-size: 2.125rem; /* 34px */
+  box-shadow: inset 0px 4px 5px 0px rgba(51,51,51,0.2);
 }
 
 footer {
