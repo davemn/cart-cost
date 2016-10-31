@@ -23,7 +23,9 @@ function CentsFilter(){
 
 function roundToCents(num){
   var cents = Math.round(Number(num+'e2'));
-  return Number(cents+'e-2');
+  var out = Number(cents+'e-2');
+  console.log('Rounding ' + num + ' to ' + out);
+  return out;
 }
 
 function CartCost($scope){
@@ -40,17 +42,24 @@ function CartCost($scope){
 
   // update total as lines get added to ledger
   $scope.$watchCollection('ledger', function(newLedger, oldLedger) {
+    // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
     var sum = 0;
-    var tax = 0;
+    var line = 0;
 
     for(var i=0; i < newLedger.length; i++){
-      sum += newLedger[i].amount
-      if(newLedger[i].taxRate)
-        tax += roundToCents(newLedger[i].amount * Number(newLedger[i].taxRate+'e-2'));
+      line = newLedger[i].amount;
+      
+      if(newLedger[i].taxRate) // individual items may have a different tax rate
+        line += line * Number(newLedger[i].taxRate+'e-2');
       else
-        tax += roundToCents(newLedger[i].amount * Number($scope.taxRate+'e-2'));
+        line += line * Number($scope.taxRate+'e-2');
+      
+      line = roundToCents(line);
+      
+      sum += line;
+      line = 0;
     }
-    $scope.total = sum + tax;
+    $scope.total = sum;
   });
 
   // add line to ledger
