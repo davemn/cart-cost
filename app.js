@@ -16,7 +16,7 @@ function CentsFilter(){
     var parts = input.toString().split('.');
     if(parts.length < 2)
       return '00';
-    var cents = Math.floor(Number(parts[1]+'e2')); // truncate to whole cents
+    var cents = Math.floor(Number(parts[1])); // truncate to whole cents
     return String('00' + cents).slice(-2); // left pad to 2 digits
   }
 }
