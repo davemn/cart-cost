@@ -18,14 +18,10 @@ function CentsFilter(){
     if(parts.length < 2)
       return '00';
     
-    var cents; // truncate to whole cents
-    if(parts[1].length < 2)
-      cents = Number(parts[1]+'e1');
-    else
-      cents = Number(parts[1]);
-    var padded = String('00' + cents).slice(-2); // left pad to 2 digits
-    
-    return padded;
+    var cents = parts[1];
+    // right pad, to (a minimum of) 2 digits
+    cents = String(cents + '00').substring(0, Math.max(cents.length, 2));
+    return cents.substring(0,2); // truncate to whole cents
   }
 }
 function ReverseCollectionFilter(){
