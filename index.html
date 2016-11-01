@@ -22,33 +22,9 @@
   </header>
   <section class="section-main">
     <div class="ledger">
-      <div class="ledger-row">
-        <span class="dollars">10</span>
-        <span class="cents">50</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">0</span>
-        <span class="cents">99</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">13</span>
-        <span class="cents">02</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">12</span>
-        <span class="cents">01</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">15</span>
-        <span class="cents">30</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">19</span>
-        <span class="cents">63</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">6</span>
-        <span class="cents">52</span>
+      <div class="ledger-row" ng-repeat="line in ledger | reverseCollection ">
+        <span class="dollars">{{ line.amount | dollars }}</span>
+        <span class="cents">{{ line.amount | cents }}</span>
       </div>
     </div>
   </section>

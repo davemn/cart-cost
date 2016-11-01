@@ -2,6 +2,7 @@ var app = angular.module('CartCostApp', []);
 
 app.filter('dollars', DollarsFilter);
 app.filter('cents', CentsFilter);
+app.filter('reverseCollection', ReverseCollectionFilter);
 app.controller('CartCost', ['$scope', CartCost]);
 
 // --- 
@@ -16,9 +17,21 @@ function CentsFilter(){
     var parts = input.toString().split('.');
     if(parts.length < 2)
       return '00';
-    var cents = Math.floor(Number(parts[1])); // truncate to whole cents
-    return String('00' + cents).slice(-2); // left pad to 2 digits
+    
+    var cents; // truncate to whole cents
+    if(parts[1].length < 2)
+      cents = Number(parts[1]+'e1');
+    else
+      cents = Number(parts[1]);
+    var padded = String('00' + cents).slice(-2); // left pad to 2 digits
+    
+    return padded;
   }
+}
+function ReverseCollectionFilter(){
+  return function(coll) {
+    return coll.slice().reverse();
+  };
 }
 
 function roundToCents(num){
