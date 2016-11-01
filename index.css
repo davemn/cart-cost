@@ -81,6 +81,18 @@ footer {
 .ledger-row .cents {
   text-align: left;
 }
+.ledger-label {
+  text-align: center;
+  color: #aaa;
+  font-size: .8em;
+  border-top: 1px solid #eee;
+}
+.ledger-label:first-child {
+  border-top: none;
+}
+.ledger-label > span {
+  width: 100%;
+}
 
 .btn-pad {
   display: flex;

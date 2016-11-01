@@ -10,9 +10,15 @@
 <body ng-controller="CartCost">
   <header>
     <div class="ledger">
+      <div class="ledger-row ledger-label">
+        <span>Total</span>
+      </div>
       <div class="ledger-row ledger-row-2x">
         <span class="dollars">{{total | dollars}}</span>
         <span class="cents">{{total | cents}}</span>
+      </div>
+      <div class="ledger-row ledger-label">
+        <span>Tax</span>
       </div>
       <div class="ledger-row">
         <span class="dollars">4</span>
