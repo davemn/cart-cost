@@ -1,27 +1,57 @@
 var app = angular.module('CartCostApp', []);
 
-app.filter('dollars', DollarsFilter);
-app.filter('cents', CentsFilter);
+app.factory('Currency', function(){
+  function CurrencyType(n){
+    this.num = parseFloat(n);
+  }
+  CurrencyType.prototype.formatDollars = function(){
+    return Math.floor(this.num).toString();
+  };
+  CurrencyType.prototype.formatCents = function(minWidth){
+    minWidth = minWidth || 2;
+    var zeroes = Array(minWidth+1).join('0'); // default '00', string of zeroes of length `minWidth`
+    
+    var parts = this.num.toString().split('.');
+    if(parts.length < minWidth)
+      return zeroes;
+    
+    var cents = parts[1];
+    // right pad, to (a minimum of) `minWidth` digits
+    cents = String(cents + zeroes).substring(0, Math.max(cents.length, minWidth));
+    return cents.substring(0,minWidth); // truncate to whole cents (default), or fractional matching `minWidth`
+  };
+  CurrencyType.prototype.format = function(sep){
+    sep = sep || '.';
+    return this.formatDollars() + sep + this.formatCents();
+  };
+  // CurrencyType.prototype.dollarsAddModulo100 = function(arg){
+  //   var dollars = this.formatDollars();
+  //   var cents = this.formatCents();
+  //   
+  //   dollars = parseInt(dollars):
+  //   
+  //   
+  //   this.num = parseFloat(dollars+'.'+cents);
+  // };
+  
+  return CurrencyType;
+});
+
+app.filter('dollars', ['Currency', DollarsFilter]);
+app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
 app.controller('CartCost', ['$scope', CartCost]);
 
 // --- 
 
-function DollarsFilter(){
+function DollarsFilter(Currency){
   return function(input) {
-    return Math.floor(input);
+    return new Currency(input).formatDollars();
   }
 };
-function CentsFilter(){
+function CentsFilter(Currency){
   return function(input) {
-    var parts = input.toString().split('.');
-    if(parts.length < 2)
-      return '00';
-    
-    var cents = parts[1];
-    // right pad, to (a minimum of) 2 digits
-    cents = String(cents + '00').substring(0, Math.max(cents.length, 2));
-    return cents.substring(0,2); // truncate to whole cents
+    return new Currency(input).formatCents();
   }
 }
 function ReverseCollectionFilter(){
@@ -40,6 +70,7 @@ function roundToCents(num){
 function CartCost($scope){
 
   $scope.curInput = 12.5;
+  $scope.curInputFmt = '12.50';
   $scope.taxRate = 6.25;
   $scope.ledger = [
     { amount: 12.7 },
@@ -85,4 +116,11 @@ function CartCost($scope){
   $scope.clear = function(){
     $scope.curInput = 0;
   }
+  
+  $scope.inputAddDollars = function(amt){
+    $scope.curInput += amt;
+  };
+  $scope.inputAddCents = function(){
+    $scope.curInput += Number(amt+'e-2');
+  };
 }
