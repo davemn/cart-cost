@@ -24,15 +24,19 @@ app.factory('Currency', function(){
     sep = sep || '.';
     return this.formatDollars() + sep + this.formatCents();
   };
-  // CurrencyType.prototype.dollarsAddModulo100 = function(arg){
-  //   var dollars = this.formatDollars();
-  //   var cents = this.formatCents();
-  //   
-  //   dollars = parseInt(dollars):
-  //   
-  //   
-  //   this.num = parseFloat(dollars+'.'+cents);
-  // };
+  CurrencyType.prototype.dollarsAddModulo100 = function(arg){
+    var dollars = this.formatDollars();
+    dollars = String('00' + dollars).slice(-1 * Math.max(dollars.length, 2));
+    var cents = this.formatCents();
+    
+    // E.g. '231' (dollars)
+    var hundreds = dollars.slice(0,-2); // '2'
+    var tens = Number(dollars.slice(-2)); // 31
+    tens = (tens + arg) % 100; // 1
+    tens = String('00' + tens).slice(-2); // '01'
+    
+    this.num = parseFloat(hundreds+tens+'.'+cents);
+  };
   
   return CurrencyType;
 });
