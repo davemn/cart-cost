@@ -1,0 +1,27 @@
+{
+  "name": "cart-cost",
+  "version": "0.0.1",
+  "description": "A tax-included shopping calculator",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davemn/cart-cost.git"
+  },
+  "author": "David Mann",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/davemn/cart-cost/issues"
+  },
+  "homepage": "https://github.com/davemn/cart-cost",
+  "devDependencies": {
+    "karma-jasmine": "~1.0.2",
+    "jasmine-core": "~2.5.2",
+    "karma": "~1.3.0",
+    "angular-mocks": "~1.5.8",
+    "angular": "~1.5.8",
+    "karma-firefox-launcher": "~1.0.0"
+  }
+}
