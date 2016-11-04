@@ -14,4 +14,27 @@ describe('Currency factory', function(){
     // expect(Number('10e-1')).toEqual(1); // an intentionally failing test
     expect(Currency).toBeDefined();
   });
+
+  describe('.formatDollars()', function(){
+    it('is a string', function(){
+      var c = new Currency(12.5);
+      expect(typeof c.formatDollars()).toEqual('string');
+    });
+
+    it('is \'0\' when the Currency is only cents', function(){
+      var c = new Currency(0.99);
+      expect(c.formatDollars()).toEqual('0');
+    });
+
+    it('does *not* include a currency symbol', function(){
+      var c = new Currency(12.5);
+      var formatted = c.formatDollars();
+
+      expect(formatted.search(/^[0-9]/)).not.toEqual(-1);
+    });
+  });
+
+  // CurrencyType.prototype.formatCents = function(minWidth){
+
+  // CurrencyType.prototype.format = function(sep){
 });
