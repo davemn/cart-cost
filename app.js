@@ -12,7 +12,7 @@ app.factory('Currency', function(){
     var zeroes = Array(minWidth+1).join('0'); // default '00', string of zeroes of length `minWidth`
     
     var parts = this.num.toString().split('.');
-    if(parts.length < minWidth)
+    if(parts.length < 2)
       return zeroes;
     
     var cents = parts[1];

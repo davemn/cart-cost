@@ -35,6 +35,44 @@ describe('Currency factory', function(){
   });
 
   // CurrencyType.prototype.formatCents = function(minWidth){
+  describe('.formatCents()', function(){
+    it('is a string', function(){
+      var c = new Currency(12.5);
+      expect(typeof c.formatCents()).toEqual('string');
+    });
+
+    // default '00', string of zeroes of length `minWidth`
+    it('is \'00\' when the Currency is whole dollars, and no width given', function(){
+      var c = new Currency(5);
+      expect(c.formatCents()).toEqual('00');
+    });
+
+    it('is \'000\' when the Currency is whole dollars, and a width of 3 given', function(){
+      var c = new Currency(5);
+      expect(c.formatCents(3)).toEqual('000');
+    });
+
+    // right pad, to (a minimum of) `minWidth` digits
+    it('pads to 2 decimal places no `minWidth` is given', function(){
+      var c = new Currency(12.5);
+      expect(c.formatCents()).toEqual('50');
+    });
+    it('pads to `minWidth` decimal places when `minWidth` is given', function(){
+      var c = new Currency(12.5);
+      expect(c.formatCents(3)).toEqual('500');
+    });
+
+    // truncate to whole cents (default), or fractional matching `minWidth`
+    it('truncates to whole cents by default', function(){
+      var c = new Currency(12.005);
+      expect(c.formatCents()).toEqual('00');
+    });
+
+    it('truncates to `minWidth` decimal places, when `minWidth` is given', function(){
+      var c = new Currency(12.0005);
+      expect(c.formatCents(3)).toEqual('000');
+    });
+  });
 
   // CurrencyType.prototype.format = function(sep){
 });
