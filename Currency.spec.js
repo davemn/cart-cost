@@ -11,7 +11,6 @@ describe('Currency factory', function(){
   }));
   
   it('should exist', function(){
-    // expect(Number('10e-1')).toEqual(1); // an intentionally failing test
     expect(Currency).toBeDefined();
   });
 
@@ -34,7 +33,7 @@ describe('Currency factory', function(){
     });
   });
 
-  // CurrencyType.prototype.formatCents = function(minWidth){
+  // CurrencyType.prototype.formatCents = function(minWidth)
   describe('.formatCents()', function(){
     it('is a string', function(){
       var c = new Currency(12.5);
@@ -74,5 +73,21 @@ describe('Currency factory', function(){
     });
   });
 
-  // CurrencyType.prototype.format = function(sep){
+  // CurrencyType.prototype.format = function(sep)
+  describe('.format()', function(){
+    it('is a string', function(){
+      var c = new Currency(12.5);
+      expect(typeof c.format()).toEqual('string');
+    });
+
+    it('is separated by \'.\' by default', function(){
+      var c = new Currency(0.99);
+      expect(c.format()).toEqual('0.99');
+    });
+
+    it('is separated by the provided decimal separator', function(){
+      var c = new Currency(12.75);
+      expect(c.format(',')).toEqual('12,75');
+    });
+  });
 });
