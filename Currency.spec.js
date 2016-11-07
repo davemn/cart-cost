@@ -114,16 +114,16 @@ describe('Currency factory', function(){
       expect(b.format()).toEqual('62.50');
     });
     
-    it('wraps the 10\'s digit to the remainder on overflow when `wrap` is undefined or false', function(){
+    it('wraps the 10\'s digit to the remainder on overflow when `wrap` is true', function(){
       var a = new Currency(99.99);
       a.dollarsAddMultipleOfTen(2, true);
       
       expect(a.format()).toEqual('19.99');
     });
     
-    it('wraps the 10\'s digit to 0 on overflow when `wrap` is true', function(){
+    it('wraps the 10\'s digit to 0 on overflow when `wrap` is undefined or false', function(){
       var a = new Currency(99.99);
-      a.dollarsAddMultipleOfTen(2, true);
+      a.dollarsAddMultipleOfTen(2);
       
       expect(a.format()).toEqual('9.99');
     });

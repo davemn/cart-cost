@@ -25,18 +25,35 @@ app.factory('Currency', function(){
     return this.formatDollars() + sep + this.formatCents();
   };
   CurrencyType.prototype.dollarsAddMultipleOfTen = function(arg, wrap){
+    var multiple = String(arg).slice(-1);
+    multiple = Number(multiple+'e1');
+    
+    if(multiple === 0)
+      return;
+    
     var dollars = this.formatDollars();
     dollars = String('00' + dollars).slice(-1 * Math.max(dollars.length, 2));
     var cents = this.formatCents();
     
-    // E.g. '231' (dollars)
+    // E.g. '231' (dollars) + 90
     var hundreds = dollars.slice(0,-2); // '2'
     var tens = Number(dollars.slice(-2)); // 31
-    tens = (tens + arg) % 100; // 1
+    
+    if(wrap)
+      tens = (tens + multiple) % 100; // 21
+    else {
+      tens = String(tens + multiple);
+      if(tens.length >= 3)
+        tens = '0' + tens.slice(-1);
+    }
     tens = String('00' + tens).slice(-2); // '01'
     
     this.num = parseFloat(hundreds+tens+'.'+cents);
   };
+  /*
+  CurrencyType.prototype.dollarsAddTen = function(wrap){ };
+  CurrencyType.prototype.dollarsAddOne = function(wrap){ };
+  */
   
   return CurrencyType;
 });
