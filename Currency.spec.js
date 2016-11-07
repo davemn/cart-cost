@@ -90,4 +90,44 @@ describe('Currency factory', function(){
       expect(c.format(',')).toEqual('12,75');
     });
   });
+  
+  describe('.dollarsAddMultipleOfTen()', function(){
+    it('leaves the number unchanged when given 0', function(){
+      var a = new Currency(12.5);
+      var aBefore = a.format();
+      
+      a.dollarsAddMultipleOfTen(0);
+      var aAfter = a.format();
+      
+      expect(aBefore).toEqual(aAfter);
+    });
+    
+    it('truncates multiples >= 10', function(){
+      var a = new Currency(12.5);
+      a.dollarsAddMultipleOfTen(10);
+      
+      expect(a.format()).toEqual('12.50');
+      
+      var b = new Currency(12.5);
+      b.dollarsAddMultipleOfTen(25);
+      
+      expect(b.format()).toEqual('62.50');
+    });
+    
+    it('wraps the 10\'s digit to the remainder on overflow when `wrap` is undefined or false', function(){
+      var a = new Currency(99.99);
+      a.dollarsAddMultipleOfTen(2, true);
+      
+      expect(a.format()).toEqual('19.99');
+    });
+    
+    it('wraps the 10\'s digit to 0 on overflow when `wrap` is true', function(){
+      var a = new Currency(99.99);
+      a.dollarsAddMultipleOfTen(2, true);
+      
+      expect(a.format()).toEqual('9.99');
+    });
+    
+    // it('only modifies the 10\'s digit', function(){ });
+  });
 });

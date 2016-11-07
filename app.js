@@ -24,7 +24,7 @@ app.factory('Currency', function(){
     sep = sep || '.';
     return this.formatDollars() + sep + this.formatCents();
   };
-  CurrencyType.prototype.dollarsAddModulo100 = function(arg){
+  CurrencyType.prototype.dollarsAddMultipleOfTen = function(arg, wrap){
     var dollars = this.formatDollars();
     dollars = String('00' + dollars).slice(-1 * Math.max(dollars.length, 2));
     var cents = this.formatCents();
