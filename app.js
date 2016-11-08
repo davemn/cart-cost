@@ -90,8 +90,11 @@ function roundToCents(num){
 
 function CartCost($scope){
 
-  $scope.curInput = 12.5;
-  $scope.curInputFmt = '12.50';
+  // $scope.curInput = 12.5;
+  // $scope.curInputFmt = '12.50';
+  $scope.inputDigits = [0,0,0,0,0];
+  $scope.input = 0;
+  
   $scope.taxRate = 6.25;
   $scope.ledger = [
     { amount: 12.7 },
@@ -122,26 +125,31 @@ function CartCost($scope){
     }
     $scope.total = sum;
   });
+  
+  // update `input` as digits are changed
+  $scope.$watchCollection('inputDigits', function(newDigits, oldDigits) {
+    var dollars = newDigits.slice(0,3).join('');
+    var cents = newDigits.slice(-2).join('');
+    $scope.input = Number(dollars+'.'+cents);
+  });
 
   // add line to ledger
-  $scope.add = function(){
-    if($scope.curInput <= 0)
-      return;
-
+  $scope.addToLedger = function(){
     $scope.ledger.push({
-      amount: $scope.curInput
+      amount: $scope.input
     });
     $scope.clear();
   };
 
   $scope.clear = function(){
-    $scope.curInput = 0;
+    $scope.inputDigits = [0,0,0,0,0];
   }
   
-  $scope.inputAddDollars = function(amt){
-    $scope.curInput += amt;
-  };
-  $scope.inputAddCents = function(){
-    $scope.curInput += Number(amt+'e-2');
+  // input = input + amt * 10^toExp, but wraps to 0 on overflow, with no carry
+  $scope.inputAdd = function(amt, toExp){
+    var i = 2 - toExp;
+    $scope.inputDigits[i] += amt;
+    if($scope.inputDigits[i] >= 10)
+      $scope.inputDigits[i] = 0;
   };
 }
