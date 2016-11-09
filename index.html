@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body ng-controller="CartCost">
-  <header>
+  <header ng-class="{disabled: mode === Modes.EDIT}">
     <div class="ledger">
       <div class="ledger-row ledger-label">
         <span>Total</span>
@@ -25,39 +25,40 @@
         <span class="cents">87</span>
       </div>
     </div>
+    <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
   </header>
   <section class="section-main">
     <div class="ledger">
       <div class="ledger-row" ng-repeat="line in ledger | reverseCollection ">
         <span class="dollars">{{ line.amount | dollars }}</span>
-        <span class="cents">{{ line.amount | cents }}</span>
+        <span class="cents">{{ line.amount | cents }}<a ng-show="mode === Modes.EDIT" ng-click="removeFromLedger($index)"><i class="fa fa-trash"></i></a></span>
       </div>
     </div>
   </section>
-  <footer>
+  <footer ng-class="{disabled: mode === Modes.EDIT}">
     <div class="footer-row row-1x">
       <div class="btn-pad-display">{{ input | currency }}</div>
     </div>
     <div class="footer-row row-2x">
       <div class="btn-pad">
         <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-click="inputAdd(1,1)">10</button>
-          <button class="btn btn-block btn-default" ng-click="inputAdd(5,1)">50</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,1)">10</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,1)">50</button>
         </div>
         <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-click="inputAdd(1,0)">1</button>
-          <button class="btn btn-block btn-default" ng-click="inputAdd(5,0)">5</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,0)">1</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,0)">5</button>
         </div>
         <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-click="inputAdd(1,-1)">10</button>
-          <button class="btn btn-block btn-default" ng-click="inputAdd(5,-1)">50</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,-1)">10</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,-1)">50</button>
         </div>
         <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-click="inputAdd(1,-2)">1</button>
-          <button class="btn btn-block btn-default" ng-click="inputAdd(5,-2)">5</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,-2)">1</button>
+          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,-2)">5</button>
         </div>
         <div class="btn-col">
-          <button class="btn btn-block btn-primary btn-row-2x" ng-click="addToLedger()">
+          <button class="btn btn-block btn-primary btn-row-2x" ng-disabled="mode === Modes.EDIT" ng-click="addToLedger()">
             <i class="fa fa-plus"></i>
           </button>
         </div>

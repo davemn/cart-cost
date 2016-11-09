@@ -89,9 +89,15 @@ function roundToCents(num){
 }
 
 function CartCost($scope){
-
-  // $scope.curInput = 12.5;
-  // $scope.curInputFmt = '12.50';
+  $scope.Modes = {
+    INPUT:0,
+    EDIT:1,
+    SETTINGS:2,
+  };
+  
+  $scope.isEditMode = false;
+  $scope.mode = $scope.Modes.INPUT;
+  
   $scope.inputDigits = [0,0,0,0,0];
   $scope.input = 0;
   
@@ -135,10 +141,17 @@ function CartCost($scope){
 
   // add line to ledger
   $scope.addToLedger = function(){
+    if($scope.input === 0)
+      return;
+    
     $scope.ledger.push({
       amount: $scope.input
     });
     $scope.clear();
+  };
+  
+  $scope.removeFromLedger = function(i){
+    $scope.ledger.splice(i,1);
   };
 
   $scope.clear = function(){
@@ -152,4 +165,11 @@ function CartCost($scope){
     if($scope.inputDigits[i] >= 10)
       $scope.inputDigits[i] = 0;
   };
+  
+  $scope.toggleEditMode = function(){
+    if($scope.mode === $scope.Modes.EDIT)
+      $scope.mode = $scope.Modes.INPUT;
+    else
+      $scope.mode = $scope.Modes.EDIT;
+  }
 }

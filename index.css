@@ -11,6 +11,9 @@ html {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+a[ng-click] {
+  cursor: pointer;
+}
 
 body {
   font-family: 'Noto Sans', sans-serif;
@@ -25,6 +28,10 @@ body {
 
 header, footer {
   width: 100%;
+}
+header.disabled, footer.disabled {
+  background-color: #ddd;
+  color: #bbb;
 }
 
 header {
@@ -112,6 +119,16 @@ footer {
 }
 .btn-row-2x {
   height: calc(100% - 4px);
+}
+
+.btn-edit {
+  position: fixed;
+  top: 4px;
+  right: 4px;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  padding: 0;
 }
 
 .after-tax {
