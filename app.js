@@ -71,8 +71,11 @@ function DollarsFilter(Currency){
   }
 };
 function CentsFilter(Currency){
-  return function(input) {
-    return new Currency(input).formatCents();
+  return function(input,width) {
+    if(width)
+      return new Currency(input).formatCents(width);
+    else
+      return new Currency(input).formatCents();
   }
 }
 function ReverseCollectionFilter(){
@@ -103,9 +106,9 @@ function CartCost($scope){
   
   $scope.taxRate = 6.25;
   $scope.ledger = [
-    { amount: 12.7 },
-    { amount: 0.99 },
-    { amount: 13, taxRate: 2.9 }
+    { amount: 12.7, tax: 0.79 },
+    { amount: 0.99, tax: 0.06 },
+    { amount: 13, tax: 0.38, taxRate: 2.9 } // individual items may have a different tax rate
   ];
 
   $scope.total = 0;
@@ -114,20 +117,13 @@ function CartCost($scope){
   $scope.$watchCollection('ledger', function(newLedger, oldLedger) {
     // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
     var sum = 0;
-    var line = 0;
+    var line;
 
     for(var i=0; i < newLedger.length; i++){
-      line = newLedger[i].amount;
-      
-      if(newLedger[i].taxRate) // individual items may have a different tax rate
-        line += line * Number(newLedger[i].taxRate+'e-2');
-      else
-        line += line * Number($scope.taxRate+'e-2');
-      
+      line = newLedger[i].amount + newLedger[i].tax;
       line = roundToCents(line);
       
       sum += line;
-      line = 0;
     }
     $scope.total = sum;
   });
@@ -144,8 +140,14 @@ function CartCost($scope){
     if($scope.input === 0)
       return;
     
+    // E.g. 0.99 @ 6.25% tax rate. TODO rounding will fail on $32.63, use decimal lib instead
+    var tax = $scope.input * Number($scope.taxRate+'e-2'); // 0.061875
+    var roundedTotal = roundToCents($scope.input + tax); // 1.05
+    tax = roundedTotal - $scope.input; // 0.06
+    
     $scope.ledger.push({
-      amount: $scope.input
+      amount: $scope.input,
+      tax: tax
     });
     $scope.clear();
   };

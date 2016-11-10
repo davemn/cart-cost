@@ -29,9 +29,13 @@
   </header>
   <section class="section-main">
     <div class="ledger">
-      <div class="ledger-row" ng-repeat="line in ledger | reverseCollection ">
+      <div class="ledger-row" ng-repeat-start="line in ledger | reverseCollection ">
         <span class="dollars">{{ line.amount | dollars }}</span>
         <span class="cents">{{ line.amount | cents }}<a ng-show="mode === Modes.EDIT" ng-click="removeFromLedger($index)"><i class="fa fa-trash"></i></a></span>
+      </div>
+      <div class="ledger-row ledger-row-sm" ng-repeat-end>
+        <span class="dollars">{{ line.tax | dollars }}</span>
+        <span class="cents">{{ line.tax | cents }}</span>
       </div>
     </div>
   </section>

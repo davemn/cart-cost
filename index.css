@@ -71,6 +71,11 @@ footer {
   width: 100%;
   display: flex;
 }
+.ledger-row-sm {
+  font-size: 0.5em;
+  color: #aaa;
+  border-bottom: 1px solid #eee;
+}
 .ledger-row-2x {
   font-size: 1.5em;
 }
