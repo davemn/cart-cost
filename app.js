@@ -1,5 +1,12 @@
 var app = angular.module('CartCostApp', []);
 
+app.factory('Big', ['$window', function($window){
+  // TODO load async instead of via <script> tag, ala http://www.ng-newsletter.com/posts/d3-on-angular.html
+  return $window.Big;
+}]);
+
+// ---
+
 app.factory('Currency', function(){
   function CurrencyType(n){
     this.num = parseFloat(n);
@@ -61,7 +68,7 @@ app.factory('Currency', function(){
 app.filter('dollars', ['Currency', DollarsFilter]);
 app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
-app.controller('CartCost', ['$scope', CartCost]);
+app.controller('CartCost', ['$scope', 'Big', CartCost]);
 
 // --- 
 
@@ -84,14 +91,9 @@ function ReverseCollectionFilter(){
   };
 }
 
-function roundToCents(num){
-  var cents = Math.round(Number(num+'e2'));
-  var out = Number(cents+'e-2');
-  console.log('Rounding ' + num + ' to ' + out);
-  return out;
-}
+// ---
 
-function CartCost($scope){
+function CartCost($scope, Big){
   $scope.Modes = {
     INPUT:0,
     EDIT:1,
@@ -121,7 +123,6 @@ function CartCost($scope){
 
     for(var i=0; i < newLedger.length; i++){
       line = newLedger[i].amount + newLedger[i].tax;
-      line = roundToCents(line);
       
       sum += line;
     }
@@ -140,10 +141,15 @@ function CartCost($scope){
     if($scope.input === 0)
       return;
     
-    // E.g. 0.99 @ 6.25% tax rate. TODO rounding will fail on $32.63, use decimal lib instead
-    var tax = $scope.input * Number($scope.taxRate+'e-2'); // 0.061875
-    var roundedTotal = roundToCents($scope.input + tax); // 1.05
-    tax = roundedTotal - $scope.input; // 0.06
+    // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
+    // TODO is `tax = roundToCents(amount*rate)` equivalent?
+
+    var input = new Big($scope.input); // 32.63
+    var taxRate = new Big($scope.taxRate+'e-2'); // 0.0625
+    var roundedTotal = input.times(taxRate.plus(1)).round(2); // 34.669375 -> 34.67
+
+    var tax = roundedTotal.minus(input).toString(); // 2.04
+    tax = Number(tax);
     
     $scope.ledger.push({
       amount: $scope.input,
