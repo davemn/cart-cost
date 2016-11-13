@@ -114,19 +114,22 @@ function CartCost($scope, Big){
   ];
 
   $scope.total = 0;
+  $scope.tax = 0;
 
   // update total as lines get added to ledger
   $scope.$watchCollection('ledger', function(newLedger, oldLedger) {
     // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
-    var sum = 0;
+    var sum = 0, taxSum = 0;
     var line;
 
     for(var i=0; i < newLedger.length; i++){
       line = newLedger[i].amount + newLedger[i].tax;
       
       sum += line;
+      taxSum += newLedger[i].tax;
     }
     $scope.total = sum;
+    $scope.tax = taxSum;
   });
   
   // update `input` as digits are changed

@@ -21,8 +21,8 @@
         <span>Tax</span>
       </div>
       <div class="ledger-row">
-        <span class="dollars">4</span>
-        <span class="cents">87</span>
+        <span class="dollars">{{tax | dollars}}</span>
+        <span class="cents">{{tax | cents}}</span>
       </div>
     </div>
     <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
