@@ -108,9 +108,9 @@ function CartCost($scope, Big){
   
   $scope.taxRate = 6.25;
   $scope.ledger = [
-    { amount: 12.7, tax: 0.79 },
-    { amount: 0.99, tax: 0.06 },
-    { amount: 13, tax: 0.38, taxRate: 2.9 } // individual items may have a different tax rate
+    { id: 0, amount: 12.7, tax: 0.79 },
+    { id: 1, amount: 0.99, tax: 0.06 },
+    { id: 2, amount: 13, tax: 0.38, taxRate: 2.9 } // individual items may have a different tax rate
   ];
 
   $scope.total = 0;
@@ -154,6 +154,8 @@ function CartCost($scope, Big){
     var tax = roundedTotal.minus(input).toString(); // 2.04
     tax = Number(tax);
     
+    // TODO assign IDs via service that guarantees no overlap
+    
     $scope.ledger.push({
       amount: $scope.input,
       tax: tax
@@ -161,8 +163,13 @@ function CartCost($scope, Big){
     $scope.clear();
   };
   
-  $scope.removeFromLedger = function(i){
-    $scope.ledger.splice(i,1);
+  $scope.removeFromLedger = function(id){
+    for(var i=0; i < $scope.ledger.length; i++){
+      if($scope.ledger[i].id === id){
+        $scope.ledger.splice(i,1);
+        return;
+      }
+    }
   };
 
   $scope.clear = function(){
