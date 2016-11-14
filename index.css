@@ -46,6 +46,10 @@ header {
   box-shadow: inset 0px 4px 5px 0px rgba(51,51,51,0.2);
 }
 
+.section-main .fa-flex-parent {
+  line-height: calc(2.125rem * 1.42857143);
+}
+
 footer {
   border-top: 1px solid #ddd;
   background-color: #fff;
@@ -62,6 +66,17 @@ footer {
 }
 
 /* ------------------------------- */
+
+.fa-sm {
+  font-size: 60%;
+}
+
+.fa-flex-parent {
+  display: inherit;
+}
+.fa-flex-parent > .fa {
+  line-height: inherit;
+}
 
 .ledger {
   display: flex;
@@ -106,7 +121,6 @@ footer {
   width: 100%;
 }
 .ledger-controls {
-  font-size: 60%;
   color: #bbb;
   cursor: pointer;
 }
@@ -139,17 +153,4 @@ footer {
   width: 34px;
   height: 34px;
   padding: 0;
-}
-
-.after-tax {
-  float: right;
-  display: inline-block;
-  min-width: 10px;
-  height: 42px;
-  line-height: 42px;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  background-color: #ddd;
-  border-left: 1px solid red;
 }

@@ -31,7 +31,7 @@
     <div class="ledger">
       <div class="ledger-row" ng-repeat-start="line in ledger | reverseCollection ">
         <span class="dollars">{{ line.amount | dollars }}</span>
-        <span class="cents">{{ line.amount | cents }}<span class="ledger-controls" ng-show="mode === Modes.EDIT" ng-click="removeFromLedger(line.id)"><i class="fa fa-trash"></i></span></span>
+        <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash ledger-controls" ng-show="mode === Modes.EDIT" ng-click="removeFromLedger(line.id)"></i></span>
       </div>
       <div class="ledger-row ledger-row-sm" ng-repeat-end>
         <span class="dollars">{{ line.tax | dollars }}</span>
