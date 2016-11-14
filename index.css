@@ -105,6 +105,11 @@ footer {
 .ledger-label > span {
   width: 100%;
 }
+.ledger-controls {
+  font-size: 60%;
+  color: #bbb;
+  cursor: pointer;
+}
 
 .btn-pad {
   display: flex;
