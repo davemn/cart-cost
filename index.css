@@ -17,11 +17,14 @@ a[ng-click] {
 
 body {
   font-family: 'Noto Sans', sans-serif;
-  height: 100vh;
   background-color: transparent;
   background-image: url(data:image/gif;base64,R0lGODlhAQABAPAAAN3d3f///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==);
   background-repeat: repeat-y;
   background-position: top center;
+}
+
+.page {
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }

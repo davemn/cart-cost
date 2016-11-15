@@ -7,70 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
   <link rel="stylesheet" href="index.css">
 </head>
-<body ng-controller="CartCost">
-  <header ng-class="{disabled: mode === Modes.EDIT}">
-    <div class="ledger">
-      <div class="ledger-row ledger-label">
-        <span>Total</span>
-      </div>
-      <div class="ledger-row ledger-row-2x">
-        <span class="dollars">{{total | dollars}}</span>
-        <span class="cents">{{total | cents}}</span>
-      </div>
-      <div class="ledger-row ledger-label">
-        <span>Tax</span>
-      </div>
-      <div class="ledger-row">
-        <span class="dollars">{{tax | dollars}}</span>
-        <span class="cents">{{tax | cents}}</span>
-      </div>
-    </div>
-    <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
-  </header>
-  <section class="section-main">
-    <div class="ledger">
-      <div class="ledger-row" ng-repeat-start="line in ledger | reverseCollection ">
-        <span class="dollars">{{ line.amount | dollars }}</span>
-        <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash ledger-controls" ng-show="mode === Modes.EDIT" ng-click="removeFromLedger(line.id)"></i></span>
-      </div>
-      <div class="ledger-row ledger-row-sm" ng-repeat-end>
-        <span class="dollars">{{ line.tax | dollars }}</span>
-        <span class="cents">{{ line.tax | cents }}</span>
-      </div>
-    </div>
-  </section>
-  <footer ng-class="{disabled: mode === Modes.EDIT}">
-    <div class="footer-row row-1x">
-      <div class="btn-pad-display">{{ input | currency }}</div>
-    </div>
-    <div class="footer-row row-2x">
-      <div class="btn-pad">
-        <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,1)">10</button>
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,1)">50</button>
-        </div>
-        <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,0)">1</button>
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,0)">5</button>
-        </div>
-        <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,-1)">10</button>
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,-1)">50</button>
-        </div>
-        <div class="btn-col">
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(1,-2)">1</button>
-          <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,-2)">5</button>
-        </div>
-        <div class="btn-col">
-          <button class="btn btn-block btn-primary btn-row-2x" ng-disabled="mode === Modes.EDIT" ng-click="addToLedger()">
-            <i class="fa fa-plus"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </footer>
+<body>
+  <div ng-view class="page {{ pageClass }}"></div>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/big.js/3.1.3/big.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

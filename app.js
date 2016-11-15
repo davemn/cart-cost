@@ -1,4 +1,11 @@
-var app = angular.module('CartCostApp', []);
+var app = angular.module('CartCostApp', ['ngRoute']);
+
+app.run(['$rootScope', '$location', function($rootScope, $location){
+  'use strict';
+  $rootScope.$on('$routeChangeError', function() {
+    $location.path('/calculator');
+  });
+}]);
 
 app.factory('Big', ['$window', function($window){
   // TODO load async instead of via <script> tag, ala http://www.ng-newsletter.com/posts/d3-on-angular.html
@@ -68,7 +75,7 @@ app.factory('Currency', function(){
 app.filter('dollars', ['Currency', DollarsFilter]);
 app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
-app.controller('CartCost', ['$scope', 'Big', CartCost]);
+app.controller('calculatorController', ['$scope', '$location', 'Big', calculatorController]);
 
 // --- 
 
@@ -93,7 +100,9 @@ function ReverseCollectionFilter(){
 
 // ---
 
-function CartCost($scope, Big){
+function calculatorController($scope, $location, Big){
+  $scope.pageClass = 'page-calculator';
+  
   $scope.Modes = {
     INPUT:0,
     EDIT:1,
@@ -191,3 +200,21 @@ function CartCost($scope, Big){
       $scope.mode = $scope.Modes.EDIT;
   }
 }
+
+// ---
+
+app.config(['$locationProvider', '$routeProvider', function config($locationProvider, $routeProvider){
+  $locationProvider.hashPrefix('!');
+
+  // TODO visual feedback while waiting on route resolve
+  $routeProvider.
+    when('/calculator', {
+      controller: 'calculatorController',
+      // controllerAs: 'vm',
+      templateUrl: 'views/calculatorView.html'
+      // resolve: {
+      //   
+      // }
+    }).
+    otherwise({ redirectTo : '/calculator' });
+}]);
