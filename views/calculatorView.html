@@ -16,12 +16,13 @@
     </div>
   </div>
   <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
+  <button class="btn btn-primary btn-settings" ng-click="goSettings()"><i class="fa fa-fw fa-cog"></i></button>
 </header>
 <section class="section-main">
   <div class="ledger">
     <div class="ledger-row" ng-repeat-start="line in ledger | reverseCollection ">
       <span class="dollars">{{ line.amount | dollars }}</span>
-      <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash ledger-controls" ng-show="mode === Modes.EDIT" ng-click="removeFromLedger(line.id)"></i></span>
+      <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash icon-control" ng-show="mode === Modes.EDIT" ng-click="removeFromLedger(line.id)"></i></span>
     </div>
     <div class="ledger-row ledger-row-sm" ng-repeat-end>
       <span class="dollars">{{ line.tax | dollars }}</span>

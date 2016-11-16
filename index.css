@@ -52,6 +52,14 @@ header {
 .section-main .fa-flex-parent {
   line-height: calc(2.125rem * 1.42857143);
 }
+.page-settings .section-main {
+  background-color: white;
+  padding: 4px 8px;
+  font-size: .8rem;
+}
+.page-settings .section-main label {
+  font-weight: normal;
+}
 
 footer {
   border-top: 1px solid #ddd;
@@ -123,7 +131,8 @@ footer {
 .ledger-label > span {
   width: 100%;
 }
-.ledger-controls {
+
+.icon-control {
   color: #bbb;
   cursor: pointer;
 }
@@ -151,6 +160,16 @@ footer {
 .btn-edit {
   position: fixed;
   top: 4px;
+  right: 4px;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+}
+
+.btn-settings {
+  position: fixed;
+  top: 42px;
   right: 4px;
   border-radius: 50%;
   width: 34px;

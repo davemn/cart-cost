@@ -72,10 +72,15 @@ app.factory('Currency', function(){
   return CurrencyType;
 });
 
+app.service('Settings', function(){
+  this.generalSalesTaxRate = 6.25;
+});
+
 app.filter('dollars', ['Currency', DollarsFilter]);
 app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
-app.controller('calculatorController', ['$scope', '$location', 'Big', calculatorController]);
+app.controller('calculatorController', ['$scope', '$location', 'Big', 'Settings', calculatorController]);
+app.controller('settingsController', ['$scope', '$location', 'Settings', settingsController]);
 
 // --- 
 
@@ -100,7 +105,7 @@ function ReverseCollectionFilter(){
 
 // ---
 
-function calculatorController($scope, $location, Big){
+function calculatorController($scope, $location, Big, Settings){
   $scope.pageClass = 'page-calculator';
   
   $scope.Modes = {
@@ -115,7 +120,8 @@ function calculatorController($scope, $location, Big){
   $scope.inputDigits = [0,0,0,0,0];
   $scope.input = 0;
   
-  $scope.taxRate = 6.25;
+  $scope.taxRate = Settings.generalSalesTaxRate;
+  
   $scope.ledger = [
     { id: 0, amount: 12.7, tax: 0.79 },
     { id: 1, amount: 0.99, tax: 0.06 },
@@ -199,8 +205,24 @@ function calculatorController($scope, $location, Big){
     else
       $scope.mode = $scope.Modes.EDIT;
   }
+  
+  $scope.goSettings = function(){
+    $location.path('/calculator/settings');
+  };
 }
 
+function settingsController($scope, $location, Settings){
+  $scope.pageClass = 'page-settings';
+  $scope.taxRate = Settings.generalSalesTaxRate;
+  
+  $scope.$watch('taxRate', function(newRate){
+    Settings.generalSalesTaxRate = newRate;
+  });
+  
+  $scope.goBack = function(){
+    $location.path('/calculator');
+  };
+}
 // ---
 
 app.config(['$locationProvider', '$routeProvider', function config($locationProvider, $routeProvider){
@@ -215,6 +237,10 @@ app.config(['$locationProvider', '$routeProvider', function config($locationProv
       // resolve: {
       //   
       // }
+    }).
+    when('/calculator/settings', {
+      controller: 'settingsController',
+      templateUrl: 'views/settingsView.html'
     }).
     otherwise({ redirectTo : '/calculator' });
 }]);
