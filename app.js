@@ -95,7 +95,7 @@ app.service('Tax', ['Big', function(Big){
 app.filter('dollars', ['Currency', DollarsFilter]);
 app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
-app.controller('calculatorController', ['$scope', '$location', 'Settings', 'Tax', calculatorController]);
+app.controller('calculatorController', ['$scope', '$location', 'Big', 'Settings', 'Tax', calculatorController]);
 app.controller('settingsController', ['$scope', '$location', 'Settings', settingsController]);
 
 // --- 
@@ -121,7 +121,7 @@ function ReverseCollectionFilter(){
 
 // ---
 
-function calculatorController($scope, $location, Settings, Tax){
+function calculatorController($scope, $location, Big, Settings, Tax){
   $scope.pageClass = 'page-calculator';
   
   $scope.Modes = {
@@ -155,17 +155,17 @@ function calculatorController($scope, $location, Settings, Tax){
   // update total as lines get added to ledger
   $scope.$watchCollection('ledger', function(newLedger, oldLedger) {
     // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
-    var sum = 0, taxSum = 0;
+    var sum = new Big(0), taxSum = new Big(0);
     var line;
-
+    
     for(var i=0; i < newLedger.length; i++){
-      line = newLedger[i].amount + newLedger[i].tax;
+      line = new Big(newLedger[i].amount).plus(newLedger[i].tax);
       
-      sum += line;
-      taxSum += newLedger[i].tax;
+      sum = sum.plus(line);
+      taxSum = taxSum.plus(newLedger[i].tax);
     }
-    $scope.total = sum;
-    $scope.tax = taxSum;
+    $scope.total = Number(sum.toString());
+    $scope.tax   = Number(taxSum.toString());
   });
   
   // update `input` as digits are changed
