@@ -76,10 +76,26 @@ app.service('Settings', function(){
   this.generalSalesTaxRate = 6.25;
 });
 
+app.service('Tax', ['Big', function(Big){
+  this.fromRate = function(taxRate, input){
+    // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
+    // TODO is `tax = roundToCents(amount*rate)` equivalent?
+
+    var input = new Big(input); // 32.63
+    var taxRate = new Big(taxRate+'e-2'); // 0.0625
+    var roundedTotal = input.times(taxRate.plus(1)).round(2); // 34.669375 -> 34.67
+
+    var tax = roundedTotal.minus(input).toString(); // 2.04
+    tax = Number(tax);
+    
+    return tax;
+  };
+}]);
+
 app.filter('dollars', ['Currency', DollarsFilter]);
 app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
-app.controller('calculatorController', ['$scope', '$location', 'Big', 'Settings', calculatorController]);
+app.controller('calculatorController', ['$scope', '$location', 'Settings', 'Tax', calculatorController]);
 app.controller('settingsController', ['$scope', '$location', 'Settings', settingsController]);
 
 // --- 
@@ -105,7 +121,7 @@ function ReverseCollectionFilter(){
 
 // ---
 
-function calculatorController($scope, $location, Big, Settings){
+function calculatorController($scope, $location, Settings, Tax){
   $scope.pageClass = 'page-calculator';
   
   $scope.Modes = {
@@ -123,10 +139,15 @@ function calculatorController($scope, $location, Big, Settings){
   $scope.taxRate = Settings.generalSalesTaxRate;
   
   $scope.ledger = [
-    { id: 0, amount: 12.7, tax: 0.79 },
-    { id: 1, amount: 0.99, tax: 0.06 },
-    { id: 2, amount: 13, tax: 0.38, taxRate: 2.9 } // individual items may have a different tax rate
+    { id: 0, amount: 12.7 },
+    { id: 1, amount: 0.99 },
+    { id: 2, amount: 13 }
   ];
+  
+  // populate `tax` property of each ledger item - needed in case of rate change in settings
+  for(let line of $scope.ledger){
+    line.tax = Tax.fromRate($scope.taxRate, line.amount);
+  }
 
   $scope.total = 0;
   $scope.tax = 0;
@@ -160,14 +181,7 @@ function calculatorController($scope, $location, Big, Settings){
       return;
     
     // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
-    // TODO is `tax = roundToCents(amount*rate)` equivalent?
-
-    var input = new Big($scope.input); // 32.63
-    var taxRate = new Big($scope.taxRate+'e-2'); // 0.0625
-    var roundedTotal = input.times(taxRate.plus(1)).round(2); // 34.669375 -> 34.67
-
-    var tax = roundedTotal.minus(input).toString(); // 2.04
-    tax = Number(tax);
+    var tax = Tax.fromRate($scope.taxRate, $scope.input);
     
     // TODO assign IDs via service that guarantees no overlap
     
