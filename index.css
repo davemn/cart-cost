@@ -42,6 +42,10 @@ header {
   font-size: 1.416rem;
 }
 
+header .fa-flex-parent {
+  line-height: calc(1.416rem * 1.42857143);
+}
+
 .section-main {
   flex: 1;
   overflow-y: scroll;
@@ -51,14 +55,6 @@ header {
 
 .section-main .fa-flex-parent {
   line-height: calc(2.125rem * 1.42857143);
-}
-.page-settings .section-main {
-  background-color: white;
-  padding: 4px 8px;
-  font-size: .8rem;
-}
-.page-settings .section-main label {
-  font-weight: normal;
 }
 
 footer {
@@ -175,4 +171,25 @@ footer {
   width: 34px;
   height: 34px;
   padding: 0;
+}
+
+/* - Settings page overrides - */
+
+.page-settings header {
+  padding: 4px 8px;
+  display: flex;
+}
+
+.page-settings .section-main {
+  background-color: white;
+  font-size: .8rem;
+}
+
+.setting {
+  padding: 12px 8px;
+  border-bottom: 1px solid #ddd;
+}
+.setting label {
+  font-weight: normal;
+  color: black;
 }

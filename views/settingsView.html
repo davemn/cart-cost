@@ -1,15 +1,11 @@
 <header>
-  <i class="fa fa-arrow-left icon-control" ng-click="goBack()"></i>
-  Settings
+  <div class="fa-flex-parent">
+    <i class="fa fa-sm fa-arrow-left icon-control" ng-click="goBack()"></i>&nbsp;Settings
+  </div>
 </header>
 <section class="section-main">
-  <div class="form-group">
+  <div class="setting">
     <label>General Sales Tax Rate</label>
-    <input class="form-control" type="text" ng-model="taxRate">
+    <input class="form-control input-sm" type="number" ng-model="taxRate">
   </div>
 </section>
-<footer>
-  <div class="footer-row row-1x">
-    Customize the taxes applied to your current ledger.
-  </div>
-</footer>
