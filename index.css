@@ -133,7 +133,11 @@ footer {
   cursor: pointer;
 }
 
+.btn-pad-container {
+  display: flex;
+}
 .btn-pad {
+  flex: 1;
   display: flex;
   padding-bottom: 4px;
 }
@@ -145,6 +149,8 @@ footer {
 .btn-col {
   flex: 1;
   margin: 0 2px;
+  display: flex;
+  flex-direction: column;
 }
 .btn-col > .btn {
   margin-top: 4px;
