@@ -15,8 +15,8 @@
       <span class="cents">{{ledger.getTax() | cents}}</span>
     </div>
   </div>
-  <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
   <button class="btn btn-primary btn-settings" ng-click="goSettings()"><i class="fa fa-fw fa-cog"></i></button>
+  <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
 </header>
 <section class="section-main">
   <div class="ledger">

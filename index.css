@@ -155,7 +155,7 @@ footer {
 
 .btn-edit {
   position: fixed;
-  top: 4px;
+  top: 42px;
   right: 4px;
   border-radius: 50%;
   width: 34px;
@@ -165,7 +165,7 @@ footer {
 
 .btn-settings {
   position: fixed;
-  top: 42px;
+  top: 4px;
   right: 4px;
   border-radius: 50%;
   width: 34px;
