@@ -4,15 +4,15 @@
       <span>Total</span>
     </div>
     <div class="ledger-row ledger-row-2x">
-      <span class="dollars">{{total | dollars}}</span>
-      <span class="cents">{{total | cents}}</span>
+      <span class="dollars">{{ledger.getTotal() | dollars}}</span>
+      <span class="cents">{{ledger.getTotal() | cents}}</span>
     </div>
     <div class="ledger-row ledger-label">
       <span>Tax</span>
     </div>
     <div class="ledger-row">
-      <span class="dollars">{{tax | dollars}}</span>
-      <span class="cents">{{tax | cents}}</span>
+      <span class="dollars">{{ledger.getTax() | dollars}}</span>
+      <span class="cents">{{ledger.getTax() | cents}}</span>
     </div>
   </div>
   <button ng-class="{btn: true, 'btn-primary': mode === Modes.INPUT, 'btn-default': mode === Modes.EDIT, 'btn-edit': true}" ng-click="toggleEditMode()"><i class="fa fa-fw fa-edit"></i></button>
@@ -20,9 +20,9 @@
 </header>
 <section class="section-main">
   <div class="ledger">
-    <div class="ledger-row" ng-repeat-start="line in ledger | reverseCollection ">
+    <div class="ledger-row" ng-repeat-start="line in ledger.collection | reverseCollection ">
       <span class="dollars">{{ line.amount | dollars }}</span>
-      <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash icon-control" ng-show="mode === Modes.EDIT" ng-click="removeFromLedger(line.id)"></i></span>
+      <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash icon-control" ng-show="mode === Modes.EDIT" ng-click="ledger.remove(line.id)"></i></span>
     </div>
     <div class="ledger-row ledger-row-sm" ng-repeat-end>
       <span class="dollars">{{ line.tax | dollars }}</span>
@@ -53,7 +53,7 @@
         <button class="btn btn-block btn-default" ng-disabled="mode === Modes.EDIT" ng-click="inputAdd(5,-2)">5</button>
       </div>
       <div class="btn-col">
-        <button class="btn btn-block btn-primary btn-row-2x" ng-disabled="mode === Modes.EDIT" ng-click="addToLedger()">
+        <button class="btn btn-block btn-primary btn-row-2x" ng-disabled="mode === Modes.EDIT" ng-click="ledger.add(input); clear()">
           <i class="fa fa-plus"></i>
         </button>
       </div>

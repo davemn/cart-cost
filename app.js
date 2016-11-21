@@ -76,6 +76,78 @@ app.service('Settings', function(){
   this.generalSalesTaxRate = 6.25;
 });
 
+app.factory('Ledger', function(Big, Settings, Tax){
+  var ledger = [
+    { id: 0, amount: 12.7 },
+    { id: 1, amount: 0.99 },
+    { id: 2, amount: 13 }
+  ];
+  
+  var total = 0;
+  var tax = 0;
+  
+  // populate `tax` property of each ledger item - needed in case of rate change in settings
+  for(let line of ledger){
+    line.tax = Tax.fromRate(Settings.generalSalesTaxRate, line.amount);
+  }
+  
+   // add line to ledger
+  function addToLedger(input){
+    if(input === 0)
+      return;
+    
+    // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
+    var tax = Tax.fromRate(Settings.generalSalesTaxRate, input);
+    
+    // TODO assign IDs via service that guarantees no overlap
+    
+    ledger.push({
+      amount: input,
+      tax: tax
+    });
+  }
+  
+  function removeFromLedger(id){
+    for(var i=0; i < ledger.length; i++){
+      if(ledger[i].id === id){
+        ledger.splice(i,1);
+        return;
+      }
+    }
+  }
+  
+  function getTotal(){
+    // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
+    var sum = new Big(0);
+    var line;
+    
+    for(var i=0; i < ledger.length; i++){
+      line = new Big(ledger[i].amount).plus(ledger[i].tax);
+      
+      sum = sum.plus(line);
+    }
+    return Number(sum.toString());
+  }
+  
+  function getTax(){
+    // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
+    var taxSum = new Big(0);
+    
+    for(var i=0; i < ledger.length; i++){
+      taxSum = taxSum.plus(ledger[i].tax);
+    }
+    return Number(taxSum.toString());
+  }
+  
+  return {
+    collection: ledger,
+    add: addToLedger,
+    remove: removeFromLedger,
+    getTotal: getTotal,
+    getTax: getTax
+  };
+});
+
 app.service('Tax', ['Big', function(Big){
   this.fromRate = function(taxRate, input){
     // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
@@ -95,7 +167,7 @@ app.service('Tax', ['Big', function(Big){
 app.filter('dollars', ['Currency', DollarsFilter]);
 app.filter('cents', ['Currency', CentsFilter]);
 app.filter('reverseCollection', ReverseCollectionFilter);
-app.controller('calculatorController', ['$scope', '$location', 'Big', 'Settings', 'Tax', calculatorController]);
+app.controller('calculatorController', ['$scope', '$location', 'Settings', 'Ledger', calculatorController]);
 app.controller('settingsController', ['$scope', '$location', 'Settings', settingsController]);
 
 // --- 
@@ -121,7 +193,7 @@ function ReverseCollectionFilter(){
 
 // ---
 
-function calculatorController($scope, $location, Big, Settings, Tax){
+function calculatorController($scope, $location, Settings, Ledger){
   $scope.pageClass = 'page-calculator';
   
   $scope.Modes = {
@@ -133,40 +205,12 @@ function calculatorController($scope, $location, Big, Settings, Tax){
   $scope.isEditMode = false;
   $scope.mode = $scope.Modes.INPUT;
   
+  $scope.ledger = Ledger;
+  
   $scope.inputDigits = [0,0,0,0,0];
   $scope.input = 0;
   
   $scope.taxRate = Settings.generalSalesTaxRate;
-  
-  $scope.ledger = [
-    { id: 0, amount: 12.7 },
-    { id: 1, amount: 0.99 },
-    { id: 2, amount: 13 }
-  ];
-  
-  // populate `tax` property of each ledger item - needed in case of rate change in settings
-  for(let line of $scope.ledger){
-    line.tax = Tax.fromRate($scope.taxRate, line.amount);
-  }
-
-  $scope.total = 0;
-  $scope.tax = 0;
-
-  // update total as lines get added to ledger
-  $scope.$watchCollection('ledger', function(newLedger, oldLedger) {
-    // See http://money.stackexchange.com/questions/15051/sales-tax-rounded-then-totaled-or-totaled-then-rounded
-    var sum = new Big(0), taxSum = new Big(0);
-    var line;
-    
-    for(var i=0; i < newLedger.length; i++){
-      line = new Big(newLedger[i].amount).plus(newLedger[i].tax);
-      
-      sum = sum.plus(line);
-      taxSum = taxSum.plus(newLedger[i].tax);
-    }
-    $scope.total = Number(sum.toString());
-    $scope.tax   = Number(taxSum.toString());
-  });
   
   // update `input` as digits are changed
   $scope.$watchCollection('inputDigits', function(newDigits, oldDigits) {
@@ -174,32 +218,6 @@ function calculatorController($scope, $location, Big, Settings, Tax){
     var cents = newDigits.slice(-2).join('');
     $scope.input = Number(dollars+'.'+cents);
   });
-
-  // add line to ledger
-  $scope.addToLedger = function(){
-    if($scope.input === 0)
-      return;
-    
-    // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
-    var tax = Tax.fromRate($scope.taxRate, $scope.input);
-    
-    // TODO assign IDs via service that guarantees no overlap
-    
-    $scope.ledger.push({
-      amount: $scope.input,
-      tax: tax
-    });
-    $scope.clear();
-  };
-  
-  $scope.removeFromLedger = function(id){
-    for(var i=0; i < $scope.ledger.length; i++){
-      if($scope.ledger[i].id === id){
-        $scope.ledger.splice(i,1);
-        return;
-      }
-    }
-  };
 
   $scope.clear = function(){
     $scope.inputDigits = [0,0,0,0,0];
