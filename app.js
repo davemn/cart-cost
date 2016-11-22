@@ -231,6 +231,16 @@ function calculatorController($scope, $location, Settings, Ledger){
       $scope.inputDigits[i] = 0;
   };
   
+  $scope.dollarsPush = function(digit){
+    $scope.inputDigits[0] = $scope.inputDigits[1];
+    $scope.inputDigits[1] = $scope.inputDigits[2];
+    $scope.inputDigits[2] = digit;
+  };
+  $scope.centsPush = function(digit){
+    $scope.inputDigits[3] = $scope.inputDigits[4];
+    $scope.inputDigits[4] = digit;
+  };
+  
   $scope.toggleEditMode = function(){
     if($scope.mode === $scope.Modes.EDIT)
       $scope.mode = $scope.Modes.INPUT;
