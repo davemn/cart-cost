@@ -72,7 +72,6 @@
         <button class="btn" ng-click="dollarsPush(8)">8</button>
         <button class="btn" ng-click="dollarsPush(5)">5</button>
         <button class="btn" ng-click="dollarsPush(2)">2</button>
-        <button class="btn" ng-click="dollarsPush(0)">0</button>
       </div>
       <div class="btn-col">
         <button class="btn" ng-click="dollarsPush(9)">9</button>
@@ -90,14 +89,25 @@
         <button class="btn" ng-click="centsPush(8)">8</button>
         <button class="btn" ng-click="centsPush(5)">5</button>
         <button class="btn" ng-click="centsPush(2)">2</button>
-        <button class="btn" ng-click="centsPush(0)">0</button>
       </div>
       <div class="btn-col">
         <button class="btn" ng-click="centsPush(9)">9</button>
         <button class="btn" ng-click="centsPush(6)">6</button>
         <button class="btn" ng-click="centsPush(3)">3</button>
-        <button class="btn" ng-click="centsPush(9); centsPush(9)">99</button>
       </div>
+    </div>
+  </div>
+  <div class="footer-row custom-container">
+    <div class="custom">
+      <button class="btn" style="visibility:hidden"></button>
+      <button class="btn" ng-click="dollarsPush(0)">0</button>
+    </div>
+    <button class="btn btn-primary" ng-disabled="mode === Modes.EDIT" ng-click="ledger.add(input); clear()">
+      <i class="fa fa-plus"></i>
+    </button>
+    <div class="custom">
+      <button class="btn" ng-click="centsPush(0)">0</button>
+      <button class="btn" ng-click="centsPush(9); centsPush(9)">99</button>
     </div>
   </div>
 </footer>

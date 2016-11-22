@@ -155,9 +155,6 @@ footer {
 .btn-col > .btn {
   margin-top: 4px;
 }
-.btn-row-2x {
-  height: calc(100% - 4px);
-}
 
 .btn-edit {
   position: fixed;
@@ -177,6 +174,31 @@ footer {
   width: 34px;
   height: 34px;
   padding: 0;
+}
+
+.custom-container {
+  display: flex;
+  margin-bottom: 2px;
+}
+.custom-container > button {
+  flex: 1;
+  margin: 0 2px;
+  padding: 0;
+}
+.custom {
+  flex: 1;
+  margin: 0 2px;
+  display: flex;
+}
+.custom button {
+  flex: 1;
+  margin: 0 2px;
+}
+.custom button:first-child {
+  margin-left: 0;
+}
+.custom button:last-child {
+  margin-right: 0;
 }
 
 /* - Settings page overrides - */
