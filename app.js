@@ -78,8 +78,8 @@ app.service('Settings', function(){
 
 app.factory('Ledger', function(Big, Settings, Tax){
   var ledger = [
-    { id: 0, amount: 12.7 },
-    { id: 1, amount: 0.99 },
+    { id: 0, amount: 12.7, isTaxExempt: true },
+    { id: 1, amount: 0.99, isTaxExempt: true },
     { id: 2, amount: 13 }
   ];
   
@@ -88,16 +88,23 @@ app.factory('Ledger', function(Big, Settings, Tax){
   
   // populate `tax` property of each ledger item - needed in case of rate change in settings
   for(let line of ledger){
-    line.tax = Tax.fromRate(Settings.generalSalesTaxRate, line.amount);
+    if(line.isTaxExempt)
+      line.tax = 0;
+    else
+      line.tax = Tax.fromRate(Settings.generalSalesTaxRate, line.amount);
   }
   
    // add line to ledger
-  function addToLedger(input){
+  function addToLedger(input, isTaxExempt){
     if(input === 0)
       return;
     
     // E.g. 32.63 @ 6.25% tax rate. Formula: tax = roundToCents(amount*(1+rate) - amount)
-    var tax = Tax.fromRate(Settings.generalSalesTaxRate, input);
+    var tax;
+    if(isTaxExempt)
+      tax = 0;
+    else
+      tax = Tax.fromRate(Settings.generalSalesTaxRate, input);
     
     // TODO assign IDs via service that guarantees no overlap
     
@@ -209,6 +216,7 @@ function calculatorController($scope, $location, Settings, Ledger){
   
   $scope.inputDigits = [0,0,0,0,0];
   $scope.input = 0;
+  $scope.inputIsTaxExempt = true;
   
   $scope.taxRate = Settings.generalSalesTaxRate;
   
@@ -221,6 +229,7 @@ function calculatorController($scope, $location, Settings, Ledger){
 
   $scope.clear = function(){
     $scope.inputDigits = [0,0,0,0,0];
+    $scope.inputIsTaxExempt = true;
   }
   
   // input = input + amt * 10^toExp, but wraps to 0 on overflow, with no carry
@@ -247,6 +256,9 @@ function calculatorController($scope, $location, Settings, Ledger){
     else
       $scope.mode = $scope.Modes.EDIT;
   }
+  $scope.toggleIsTaxExempt = function(){
+    $scope.inputIsTaxExempt = !$scope.inputIsTaxExempt;
+  };
   
   $scope.goSettings = function(){
     $location.path('/calculator/settings');

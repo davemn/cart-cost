@@ -96,7 +96,9 @@ footer {
 .ledger-row-sm {
   font-size: 0.5em;
   color: #aaa;
-  border-bottom: 1px solid #eee;
+}
+.section-main .ledger-row:not(.ledger-row-sm):not(:first-child) {
+  border-top: 1px solid #eee;
 }
 .ledger-row-2x {
   font-size: 1.5em;
@@ -199,6 +201,13 @@ footer {
 }
 .custom button:last-child {
   margin-right: 0;
+}
+.custom .toggle {
+  flex: 1;
+  margin-right: 2px;
+  text-align: center;
+  color: #333;
+  text-decoration: none;
 }
 
 /* - Settings page overrides - */

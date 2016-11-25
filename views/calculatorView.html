@@ -24,7 +24,7 @@
       <span class="dollars">{{ line.amount | dollars }}</span>
       <span class="cents fa-flex-parent">{{ line.amount | cents }}<i class="fa fa-sm fa-trash icon-control" ng-show="mode === Modes.EDIT" ng-click="ledger.remove(line.id)"></i></span>
     </div>
-    <div class="ledger-row ledger-row-sm" ng-repeat-end>
+    <div class="ledger-row ledger-row-sm" ng-if="line.tax !== 0" ng-repeat-end>
       <span class="dollars">{{ line.tax | dollars }}</span>
       <span class="cents">{{ line.tax | cents }}</span>
     </div>
@@ -99,10 +99,11 @@
   </div>
   <div class="footer-row custom-container">
     <div class="custom">
-      <button class="btn btn-default" style="visibility:hidden"></button>
+      <!-- <button class="btn btn-default" style="visibility:hidden"></button> -->
+      <a class="toggle" ng-click="toggleIsTaxExempt()"><i ng-class="{fa: true, 'fa-toggle-on': !inputIsTaxExempt, 'fa-toggle-off': inputIsTaxExempt}"></i> Taxed?</a>
       <button class="btn btn-default" ng-disabled="mode === Modes.EDIT" ng-click="dollarsPush(0)">0</button>
     </div>
-    <button class="btn btn-primary" ng-disabled="mode === Modes.EDIT" ng-click="ledger.add(input); clear()">
+    <button class="btn btn-primary" ng-disabled="mode === Modes.EDIT" ng-click="ledger.add(input, inputIsTaxExempt); clear()">
       <i class="fa fa-plus"></i>
     </button>
     <div class="custom">
