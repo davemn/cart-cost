@@ -195,6 +195,7 @@ footer {
 .custom button {
   flex: 1;
   margin: 0 2px;
+  padding: 0;
 }
 .custom button:first-child {
   margin-left: 0;
