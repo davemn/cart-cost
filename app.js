@@ -12,6 +12,13 @@ app.factory('Big', ['$window', function($window){
   return $window.Big;
 }]);
 
+app.service('IdGenerator', function(){
+  this._linearSeed = 0;
+  this.getNextLinear = function(){
+    return this._linearSeed++;
+  };
+});
+
 // ---
 
 app.factory('Currency', function(){
@@ -76,11 +83,11 @@ app.service('Settings', function(){
   this.generalSalesTaxRate = 6.25;
 });
 
-app.factory('Ledger', function(Big, Settings, Tax){
+app.factory('Ledger', function(Big, IdGenerator, Settings, Tax){
   var ledger = [
-    { id: 0, amount: 12.7, isTaxExempt: true },
-    { id: 1, amount: 0.99, isTaxExempt: true },
-    { id: 2, amount: 13 }
+    { amount: 12.7, isTaxExempt: true },
+    { amount: 0.99, isTaxExempt: true },
+    { amount: 13 }
   ];
   
   var total = 0;
@@ -88,6 +95,7 @@ app.factory('Ledger', function(Big, Settings, Tax){
   
   // populate `tax` property of each ledger item - needed in case of rate change in settings
   for(let line of ledger){
+    line.id = IdGenerator.getNextLinear();
     if(line.isTaxExempt)
       line.tax = 0;
     else
@@ -109,6 +117,7 @@ app.factory('Ledger', function(Big, Settings, Tax){
     // TODO assign IDs via service that guarantees no overlap
     
     ledger.push({
+      id: IdGenerator.getNextLinear(),
       amount: input,
       tax: tax
     });
