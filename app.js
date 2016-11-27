@@ -241,14 +241,6 @@ function calculatorController($scope, $location, Settings, Ledger){
     $scope.inputIsTaxExempt = true;
   }
   
-  // input = input + amt * 10^toExp, but wraps to 0 on overflow, with no carry
-  $scope.inputAdd = function(amt, toExp){
-    var i = 2 - toExp;
-    $scope.inputDigits[i] += amt;
-    if($scope.inputDigits[i] >= 10)
-      $scope.inputDigits[i] = 0;
-  };
-  
   $scope.dollarsPush = function(digit){
     $scope.inputDigits[0] = $scope.inputDigits[1];
     $scope.inputDigits[1] = $scope.inputDigits[2];
